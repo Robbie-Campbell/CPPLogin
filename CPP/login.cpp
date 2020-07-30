@@ -1,5 +1,7 @@
-/* A terminal C++ login program which allows a user to create new accounts, login and hash passwords + usernames
-   This was a tutorial made by codegopher on youtube */
+/*
+A terminal C++ login program which allows a user to create new accounts, login and hash passwords + usernames
+   This was a tutorial made by codegopher on youtube
+ */
 
 #include <iostream>
 #include <fstream>
@@ -8,14 +10,17 @@
 
 using namespace std;
 
+// Create the login class
 class LoginManager
 {
+    // Visible variables
  public:
-
     LoginManager()
     {
         accessGranted = 0;
     }
+
+    // The main part of the login system - Takes in all login input and checks against the hashed information.
     void login()
     {
         cout << "Please enter username \nUsername:";
@@ -47,6 +52,7 @@ class LoginManager
         }
     }
 
+    // The function used to store user information into the data files/ also make sure that the username is unique.
     void addUser(const string username, const string password)
     {
         if(checkFile(username, "users.dat") != 0)
@@ -61,6 +67,7 @@ class LoginManager
         cout << "Congratulations! An account has been made for: " << username << endl;
     }
 
+    // The function to add a new user through the terminal.
     void addUserFunction()
     {
         cout << "Enter new username:" << endl;
@@ -70,6 +77,7 @@ class LoginManager
         addUser(username, password);
     }
 
+    // Checks the last ID has from the data files and increments 1 to it to store new user information
     int getLastID()
     {
         fstream file;
@@ -96,6 +104,7 @@ class LoginManager
         return id;
     }
 
+    // This function passes in 2 parameters to check if there is any instances of the username in the file.
     int checkFile(string attempt, const char* p_fileName)
     {
         string line;
@@ -105,7 +114,6 @@ class LoginManager
         long long eChar;
 
         file.open(p_fileName, ios::in);
-        
         while(1)
         {
             file >> currentChar;
@@ -139,6 +147,7 @@ class LoginManager
         }
     }
 
+    // The function which defines the parameters needed to store a user and save it to the data files.
     void saveFile(string p_line, const char* p_fileName, const int& id)
     {
         fstream file;
@@ -160,11 +169,13 @@ class LoginManager
         file.close();
     }
 
-    // Encrypt the passwords and usernames
+    // Encrypt the password and username
     long long encrypt(int p_letter)
     {
         return powf(p_letter, 5) * 4 - 14;
     }
+
+    // Decrypts the password and username
     int decrypt(long long p_letter)
     {
         return powf((p_letter + 14) / 4, 1/5.f);
@@ -180,7 +191,7 @@ private:
 };
 
 int main()
-{   
+{
     // Declare input variable
     string inputType;
 
@@ -197,5 +208,4 @@ int main()
         app.login();
         cin.get();
     }
-    
 }
